@@ -1,0 +1,33 @@
+---
+- hosts: test_node
+
+  tasks:
+    # test connection
+  - name: test connection with 'ping' module
+    ping:
+
+  - name: debug 'var=ansible_distribution'
+    debug: var=ansible_distribution
+
+  # Run hello-simulator 
+  - name: Run hello-simulator './waf --run  hello-simulator'
+    command: "./waf --run hello-simulator"
+    args:
+      chdir: "{{ remote_base_path }}/projects/ns3/tarballs/ns-allinone-3.29/ns-3.29"
+    register: result
+
+  - debug:
+      var: result
+      verbosity: 0
+
+  # Run scratch/emu-traffic-control-mod2 
+  - name: Run "./waf --run 'scratch/emu-traffic-control-mod2 --dataRate=256kbps --dataDelay=3ms --stopTime=300'"
+    command: "./waf --run 'scratch/emu-traffic-control-mod2 --dataRate=256kbps --dataDelay=3ms --stopTime=300'"
+    args:
+      chdir: "{{ remote_base_path }}/projects/ns3/tarballs/ns-allinone-3.29/ns-3.29"
+    register: result
+
+  - debug:
+      var: result
+      verbosity: 0
+

@@ -1,8 +1,9 @@
 # Set up NIC aliases for Ubuntu 18.04
 
-## Setup `eno1` using DHCP and `eno1:1`, `eno1:2`, and `eno1:3` as static 
+## Setup `eno1` using DHCP and `eno1:1`, `eno1:2`, and `eno1:3` as static
+
 ```sh
-$ sudo vi /etc/network/interfaces
+sudo vi /etc/network/interfaces
 ```
 
 ```ini
@@ -13,7 +14,7 @@ auto eno1
     iface eno1 inet dhcp
 
 auto eno1:1
-    iface eno1:1 inet static 
+    iface eno1:1 inet static
     name Ethernet alias LAN card
     address 10.161.29.11
     netmask 255.255.255.0
@@ -21,7 +22,7 @@ auto eno1:1
     network 10.161.29.0
 
 auto eno1:2
-iface eno1:2 inet static
+    iface eno1:2 inet static
     name Ethernet alias LAN card
     address 10.161.30.11
     netmask 255.255.255.0
@@ -29,19 +30,20 @@ iface eno1:2 inet static
     network 10.161.30.0
 
 auto eno1:3
-iface eno1:3 inet static
+    iface eno1:3 inet static
     name Ethernet alias LAN card
     address 10.161.31.11
     netmask 255.255.255.0
     broadcast 10.161.31.255
-    network 10.161.31.0   
+    network 10.161.31.0
 ```
 
 ## Restart the network
 
 ```sh
-$ sudo /etc/init.d/networking restart
+sudo /etc/init.d/networking restart
 ```
+
 Example output
 
 ```sh

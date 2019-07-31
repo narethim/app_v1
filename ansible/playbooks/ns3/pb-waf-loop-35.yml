@@ -1,0 +1,39 @@
+---
+- hosts: test_node
+
+  tasks:
+
+  # Run scratch/emu-traffic-control-mod2 reset
+  - name: Run "./waf --run 'scratch/emu-traffic-control-mod2 --dataRate=256kbps --dataDelay=3ms --stopTime=60'" reset
+    command: "./waf --run 'scratch/emu-traffic-control-mod2 --dataRate=256kbps --dataDelay=3ms --stopTime=60'"
+    args:
+      chdir: "{{ remote_base_path }}/projects/ns3/tarballs/ns-allinone-3.29/ns-3.29"
+    register: result
+
+  - debug:
+      var: result
+      verbosity: 0
+- hosts: test_node
+
+  tasks:
+
+  # Run scratch/emu-traffic-control-mod2 
+  - name: Run "./waf --run 'scratch/emu-traffic-control-mod2 --dataRate=256kbps --dataDelay={{ item }} --stopTime={{ ns3_stopTime_5min }}'"
+    command: "./waf --run 'scratch/emu-traffic-control-mod2 --dataRate=256kbps --dataDelay={{ item }} --stopTime={{ ns3_stopTime_5min }}'"
+    args:
+      chdir: "{{ remote_base_path }}/projects/ns3/tarballs/ns-allinone-3.29/ns-3.29"
+    register: result
+    loop:
+      - 35ms
+      - 36ms
+      - 37ms
+      - 38ms
+      - 39ms
+    loop_control:
+      index_var: my_idx
+      pause: 60
+
+  - debug:
+      var: result
+      verbosity: 0
+
