@@ -1,0 +1,32 @@
+---
+- hosts: pi_nodes
+  remote_user: pi
+  become: yes
+ 
+  tasks:
+
+  # systemd disable service `node_exporter`
+  - name: Disable service node_exporter, and not touch the state
+    systemd:
+      name: node_exporter
+      enabled: no
+
+  # systemd stop service `node_exporter`
+  - name: Stop service node_exporter
+    systemd:
+      name: node_exporter
+      state: stopped
+
+  # Remove service file
+  - name: "Delete file /etc/systemd/system/node_exporter.service"
+    file:
+      path: "/etc/systemd/system/node_exporter.service"
+      state: absent
+
+  # Delete user 'node_exporter'
+  - name: Delete the user 'node_exporter' 
+    user:
+      name: node_exporter
+      comment: node_exporter
+      state: absent
+
